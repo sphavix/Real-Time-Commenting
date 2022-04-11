@@ -1,0 +1,140 @@
+﻿@model Real_Time_Commenting.Models.Case
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.min.js"></script>
+<script src="//js.pusher.com/4.0/pusher.min.js"></script>
+
+<style>
+    .comments-list .media{
+        border-bottom: 1px dotted #ccc;
+    }
+</style>
+<div id="app">
+    <div><h4>Case Comments</h4><hr />
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CaseID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CaseID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProductName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Subject)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Subject)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PriorityID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PriorityID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StatusID)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StatusID)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateCreated)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="page-header">
+                <h4><small class="pull-right">{{comments.length}} comment(s)</small>Comment</h4>
+            </div>
+            <div class="comments-list">
+                <div class="media" v-for="com in comments">
+                    <div class="media-body">
+                        <h4 class="media-heading"></h4>
+                        {{com.Description}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <br />
+    <p>Case Comment</p>
+    <form onsubmit="return false;">
+        <textarea rows="3" placeholder="Case Comment" id="Description" v-model="comment.Description" class="form-control"></textarea><br/>
+        <button class="btn btn-success" v-on:click="submit_comment()">Comment</button>
+    </form>
+</div>
+</div>
+<p>
+    @Html.ActionLink("Back", "Index")
+</p>
+<script>
+    var pusher = new Pusher('f1e6030670967dc5db74', {
+        cluster: 'ap2'
+    });
+    var my_channel = pusher.subscribe('my_channel');
+    var app = new Vue({
+        el: '#app',
+        data: {
+            comments: [],
+            comment: {
+                Description: '',
+                CaseID: @Model.CaseID
+            }
+        },
+        created: function () {
+            this.get_comments();
+            this.listen();
+        },
+        methods: {
+            get_comments: function () {
+                axios.get('@Url.Action("Comment", "Home", new { id = @Model.CaseID }, protocol: Request.Url.Scheme)')
+                  .then((response)=> {
+
+                      this.comments = response.data;
+
+                  });
+
+            },
+            listen: function () {
+                my_channel.bind("my_event", (data) => {
+                    if (data.CaseID == this.comment.CaseID) {
+                        this.comments.push(data);
+                    }
+
+
+                })
+            },
+            submit_comment: function(){
+                axios.post('@Url.Action("Comment", "Home", new {}, protocol: Request.Url.Scheme)', this.comment)
+                    .then((response) => {
+                        this.comment.Description = '';
+                    alert("Comment Submitted");
+
+                 });
+            }
+        }
+    });
+</script>
