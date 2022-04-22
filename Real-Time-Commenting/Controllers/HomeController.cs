@@ -3,6 +3,7 @@ using Real_Time_Commenting.Models;
 using Real_Time_Commenting.Models.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -16,7 +17,27 @@ namespace Real_Time_Commenting.Controllers
         CaseDbContext db = new CaseDbContext();
         public ActionResult Index()
         {
-            return View(db.Cases.AsQueryable());
+            return View(GetAllCases().AsQueryable());
+        }
+
+        public List<CaseViewModel> GetAllCases()
+        {
+            using(CaseDbContext context = new CaseDbContext())
+            {
+                var cases = context.Cases.Select(x => new CaseViewModel
+                {
+                    CaseID = x.CaseID,
+                    ProductName = x.ProductName,
+                    Subject = x.Subject,
+                    PriorityName = x.Priority.PriorityName,
+                    StatusName = x.Status.StatusName,
+                    DateCreated = x.DateCreated,
+                    Description = x.Description,
+                    IsActive = true,
+                    IsDeleted = false
+                }).ToList();
+                return cases;
+            }
         }
 
         public ActionResult Create()
@@ -40,7 +61,7 @@ namespace Real_Time_Commenting.Controllers
                         Subject = model.Subject,
                         PriorityID = model.PriorityID,
                         StatusID = model.StatusID,
-                        DateCreated = DateTime.Now,
+                        DateCreated = model.DateCreated,
                         Description = model.Description,
                         IsActive = true,
                         IsDeleted = false
@@ -97,6 +118,52 @@ namespace Real_Time_Commenting.Controllers
             }
             return View(results);
         }
+
+        public ActionResult Update(int? id)
+        {
+            if(id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var results = db.Cases.Find(id);
+            if(results == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.PriorityID = new SelectList(GetPriotrities(), "PriorityID", "PriorityName");
+            ViewBag.StatusID = new SelectList(GetStatuses(), "StatusID", "StatusName");
+            return View(results);
+        }
+
+        [HttpPost]
+        public ActionResult Update(Case model)
+        {
+            try
+            {
+                var result = db.Cases.FirstOrDefault(x => x.CaseID == model.CaseID);
+                if(result != null)
+                {
+                    result.CaseID = model.CaseID;
+                    result.ProductName = model.ProductName;
+                    result.Subject = model.Subject;
+                    result.PriorityID = model.PriorityID;
+                    result.StatusID = model.StatusID;
+                    result.DateCreated = model.DateCreated;
+                    result.Description = model.Description;
+                    result.IsActive = true;
+                    result.IsDeleted = false;
+                }
+                db.Entry(model).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
 
         public ActionResult Comment(int? id)
         {

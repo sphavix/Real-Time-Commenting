@@ -15,15 +15,18 @@ namespace Real_Time_Commenting.Models
         public int CaseID { get; set; }        
         public string ProductName { get; set; }
         public string Subject { get; set; }
+
+       
         public int PriorityID { get; set; }
         public int StatusID { get; set; }
+
         public Nullable<DateTime> DateCreated { get; set; }
         public string Description { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
 
-        public virtual ICollection<Priotrity> Priotrities { get; set; }
-        public virtual ICollection<Status> Statuses { get; set; }
+        public virtual Priotrity Priority { get; set; }
+        public virtual Status Status { get; set; }
 
     }
 
@@ -34,7 +37,7 @@ namespace Real_Time_Commenting.Models
 
         public string StatusName { get; set; }
 
-        public virtual Case Case { get; set; }
+        public virtual ICollection<Case> Cases { get; set; }
     }
 
     public class Priotrity
@@ -43,7 +46,7 @@ namespace Real_Time_Commenting.Models
         public int PriorityID { get; set; }
 
         public string PriorityName { get; set; }
-        public virtual Case Case { get; set; }
+        public virtual ICollection<Case> Cases { get; set; }
     }
 
 }

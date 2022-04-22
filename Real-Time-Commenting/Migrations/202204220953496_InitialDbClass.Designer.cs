@@ -13,7 +13,7 @@ namespace Real_Time_Commenting.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202204111214052_InitialDbClass"; }
+            get { return "202204220953496_InitialDbClass"; }
         }
         
         string IMigrationMetadata.Source

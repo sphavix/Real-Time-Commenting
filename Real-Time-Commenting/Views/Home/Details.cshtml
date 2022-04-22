@@ -35,18 +35,18 @@
         <dd>
             @Html.DisplayFor(model => model.Subject)
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PriorityID)
+        @*<dt>
+            @Html.DisplayNameFor(model => model.PriorityName)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.PriorityID)
+            @Html.DisplayFor(model => model.PriorityName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.StatusID)
+            @Html.DisplayNameFor(model => model.StatusName)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.StatusID)
-        </dd>
+            @Html.DisplayFor(model => model.StatusName)
+        </dd>*@
         <dt>
             @Html.DisplayNameFor(model => model.DateCreated)
         </dt>
@@ -85,11 +85,11 @@
         <textarea rows="3" placeholder="Case Comment" id="Description" v-model="comment.Description" class="form-control"></textarea><br/>
         <button class="btn btn-success" v-on:click="submit_comment()">Comment</button>
     </form>
+    <p>
+        @Html.ActionLink("Back To List", "Index")
+    </p>
 </div>
 </div>
-<p>
-    @Html.ActionLink("Back", "Index")
-</p>
 <script>
     var pusher = new Pusher('f1e6030670967dc5db74', {
         cluster: 'ap2'

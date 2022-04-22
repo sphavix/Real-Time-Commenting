@@ -24,9 +24,11 @@ namespace Real_Time_Commenting.Models.ViewModels
         public string Subject { get; set; }
 
         [Display(Name = "Priority")]
+        public string PriorityName { get; set; }
         public int PriorityID { get; set; }
 
         [Display(Name = "Status")]
+        public string StatusName { get; set; }
         public int StatusID { get; set; }
 
         public Nullable<DateTime> DateCreated { get; set; }
@@ -38,7 +40,7 @@ namespace Real_Time_Commenting.Models.ViewModels
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
 
-        public virtual Priotrity Priotrity { get; set; }
+        public virtual Priotrity Priority { get; set; }
         public virtual Status Status { get; set; }
     }
 }

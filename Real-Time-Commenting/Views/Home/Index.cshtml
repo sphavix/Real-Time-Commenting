@@ -1,15 +1,15 @@
-﻿@model IEnumerable<Real_Time_Commenting.Models.Case>
+﻿@model IEnumerable<Real_Time_Commenting.Models.ViewModels.CaseViewModel>
 @{
     ViewBag.Title = "Home Page";
 }
 
-<h2>Cases</h2>
+<h3>FRG Support Cases</h3>
 
 <p>
-    @Html.ActionLink("New Case", "Create")
+    @Html.ActionLink("New Case", "Create",  new { htmlAttributes = new { @class = "btn btn-default" } })
 </p>
 
-<table class="table table-condensed">
+<table class="table table-responsive">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.CaseID)
@@ -17,14 +17,14 @@
         <th>
             @Html.DisplayNameFor(model => model.ProductName)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.Subject)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.PriorityName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PriorityID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StatusID)
+            @Html.DisplayNameFor(model => model.StatusName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DateCreated)
@@ -40,23 +40,24 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.ProductName)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.Subject)
+                </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.PriorityName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PriorityID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.StatusID)
+                    @Html.DisplayFor(modelItem => item.StatusName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DateCreated)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.Description)
-                </td>
+                </td>*@
                 <td>
-                    @Html.ActionLink("Details", "Details", new {id=item.CaseID}) |
+                    @Html.ActionLink("Add Comment", "Details", new { id = item.CaseID }) |
+                    @Html.ActionLink("Update Case", "Update", new { id = item.CaseID }) |
                 </td>
             </tr>
         }
