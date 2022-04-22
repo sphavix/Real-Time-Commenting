@@ -31,6 +31,9 @@ namespace Real_Time_Commenting.Models.ViewModels
         public string StatusName { get; set; }
         public int StatusID { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [Display(Name = "Date Created")]
         public Nullable<DateTime> DateCreated { get; set; }
 
         [Column(TypeName = "ntext")]

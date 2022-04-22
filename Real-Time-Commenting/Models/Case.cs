@@ -20,6 +20,8 @@ namespace Real_Time_Commenting.Models
         public int PriorityID { get; set; }
         public int StatusID { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public Nullable<DateTime> DateCreated { get; set; }
         public string Description { get; set; }
         public bool IsActive { get; set; }

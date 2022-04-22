@@ -156,6 +156,10 @@
     <Compile Include="Migrations\202204220953496_InitialDbClass.Designer.cs">
       <DependentUpon>202204220953496_InitialDbClass.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202204221057413_InitialCaseModified.cs" />
+    <Compile Include="Migrations\202204221057413_InitialCaseModified.Designer.cs">
+      <DependentUpon>202204221057413_InitialCaseModified.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Case.cs" />
     <Compile Include="Models\CaseDbContext.cs" />
@@ -227,6 +231,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202204220953496_InitialDbClass.resx">
       <DependentUpon>202204220953496_InitialDbClass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202204221057413_InitialCaseModified.resx">
+      <DependentUpon>202204221057413_InitialCaseModified.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
